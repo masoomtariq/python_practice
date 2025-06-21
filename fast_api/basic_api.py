@@ -7,5 +7,9 @@ app = FastAPI(title="Basic api", description="THis api is mainly build for testi
 def main():
     return {'message': "this is my first api"}
 
+@app.get("/hello/{name}")
+def read_item(name: str):
+    return {"message": f"Hello, {name}!"}
+
 if __name__ == "__main__":
     uvicorn.run("basic_api:app", reload=True)
