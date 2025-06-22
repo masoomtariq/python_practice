@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import uvicorn
-
 app = FastAPI(title="Basic api", description="THis api is mainly build for testing", version = '1.0.0')
 
 @app.get('/')
