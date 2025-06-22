@@ -19,12 +19,13 @@ class RegisterUser(BaseModel):
 
 @app.post('/register', response_model= dict)
 def register_user(User: RegisterUser) -> dict:
-    if User.username in users_db:
-        raise HTTPException(status_code=400, detail=f"The given username '{User.username}' already Exist.")
+    username = User.username
+    if username in users_db:
+        raise HTTPException(status_code=400, detail=f"The given username '{username}' already Exist.")
     
-    users_db[User.username] = User
+    users_db[username] = User
     return {
-        "message": f"User '{User.username}' registered successfully.",
+        "message": f"User '{username}' registered successfully.",
         "user": User.model_dump(exclude={"password"})  # Do NOT return the password
     }
 
@@ -36,7 +37,7 @@ class LoginUser(BaseModel):
 def login_user(user: LoginUser) -> dict:
 
     username = user.username
-    if username not in users_db.keys:
+    if username not in users_db:
         raise HTTPException(status_code=401, detail="Invalid username")
 
     elif users_db.get(username)['password'] != user.password:
