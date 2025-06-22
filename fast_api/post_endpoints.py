@@ -8,18 +8,21 @@ users_db = {}
 
 app = FastAPI(title="Post_api", description= description, version="1.0.0")
 
-@app.post('/item1')
-def create_items1(name: str, price: int, in_stock: Optional[bool] = True):
-    return {"Recieved": {'name': name, 'price': price, 'in_stock': in_stock}}
+@app.get('/')
+def root_page():
+    return {"message": f"Welcome to the Homepage. {description}"}
 
-class Item(BaseModel):
-    name : str
-    price: int
-    in_stock : Optional[bool]
+class user(BaseModel):
+    username: str
+    email: EmailStr
+    FullName: Optional[str] = None
 
-@app.post('/item2')
-def create_items2(item: Item):
-    return {"Recieved": item}
+@app.post('/register')
+def register_user(User: user):
+    if User.username in users_db or User.FullName in users_db:
+        raise HTTPException(status_code=400, detail="The given username or the Fullname already Exist.")
+    users_db[User.username] = User
+    return {"message": f"The user'{User.username}' registered successfully.", "User": User}
 
 if __name__ == "__main__":
     import uvicorn
