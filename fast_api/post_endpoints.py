@@ -1,8 +1,12 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-app = FastAPI(title="Basic Api", description= "This is the basic api on level 02", version="1.0.0")
+description = "This is the testing api that specially build for the post_endpoint. In this Endpoint, Try registering users and catching duplicate usernames!"
+
+users_db = {}
+
+app = FastAPI(title="Post_api", description= description, version="1.0.0")
 
 @app.post('/item1')
 def create_items1(name: str, price: int, in_stock: Optional[bool] = True):

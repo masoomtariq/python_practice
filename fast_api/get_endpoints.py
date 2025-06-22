@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 
-app = FastAPI(title="Basic api", description="THis api is mainly build for testing get Endpoints. There is a data of electric products", version = '1.0.0')
+app = FastAPI(title="Get_api", description="THis api is mainly build for testing get Endpoints. There is a data of electric products", version = '1.0.0')
 
 laptops = {
     1: {
