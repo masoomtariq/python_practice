@@ -11,3 +11,14 @@ products_db = {
     3: {"name": "Laptop", "price": 100000},
 }
 
+orders_db = []
+
+class OrderItem(BaseModel):
+    product_id: int
+    quantity: int
+
+class OrderRequest(BaseModel):
+    customer_id: int
+    items: List[OrderItem]
+    note: str = ""
+
