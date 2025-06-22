@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, EmailStr
-from typing import Optional
 
 description = "This is the testing api that specially build for the post_endpoint. In this Endpoint, Try registering users and catching duplicate usernames!"
 
@@ -12,18 +11,40 @@ app = FastAPI(title="Post_api", description= description, version="1.0.0")
 def root_page():
     return {"message": f"Welcome to the Homepage. {description}"}
 
-class user(BaseModel):
+class RegisterUser(BaseModel):
     username: str
     email: EmailStr
-    FullName: Optional[str] = None
+    full_name: str
+    password: str
 
-@app.post('/register')
-def register_user(User: user):
-    if User.username in users_db or User.FullName in users_db:
-        raise HTTPException(status_code=400, detail="The given username or the Fullname already Exist.")
+@app.post('/register', response_model= dict)
+def register_user(User: RegisterUser) -> dict:
+    if User.username in users_db:
+        raise HTTPException(status_code=400, detail=f"The given username '{User.username}' already Exist.")
+    
     users_db[User.username] = User
-    return {"message": f"The user'{User.username}' registered successfully.", "User": User}
+    return {
+        "message": f"User '{User.username}' registered successfully.",
+        "user": User.model_dump(exclude={"password"})  # Do NOT return the password
+    }
+
+class LoginUser(BaseModel):
+    username: str
+    password: str
+
+@app.post('/login', response_model=dict)
+def login_user(user: LoginUser) -> dict:
+
+    username = user.username
+    if username not in users_db.keys:
+        raise HTTPException(status_code=401, detail="Invalid username")
+
+    elif users_db.get(username)['password'] != user.password:
+        raise HTTPException(status_code=401, detail="Ivalid Password")
+    
+    return {"message": f"Welcome back, {user.username}!"}
+
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("post_endpoints:app", reload=True)
+    uvicorn.run("register_user:app", reload=True)
