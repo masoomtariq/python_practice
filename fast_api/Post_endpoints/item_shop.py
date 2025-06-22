@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
 from datetime import datetime
+from uuid import uuid4
 
 # Initialize FastAPI app with metadata
 app = FastAPI(
@@ -76,7 +77,7 @@ def place_order(order: OrderRequest) -> dict:
 
     # Create order summary
     order_summary = OrderSummary(
-        order_id=len(orders_db) + 1,
+        order_id=str(uuid4()),
         customer_id=order.customer_id,
         ordered_items=orders,
         price=total_amount,
