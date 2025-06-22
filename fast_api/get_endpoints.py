@@ -12,4 +12,4 @@ def read_item(item_id: int, q: str = None):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("basic_api:app", reload=True)
+    uvicorn.run("get_endpoints:app", reload=True)

@@ -16,3 +16,7 @@ class Item(BaseModel):
 @app.post('/item2')
 def create_items2(item: Item):
     return {"Recieved": item}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("post_endpoints:app", reload=True)
