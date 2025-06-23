@@ -1,4 +1,3 @@
 venv
 google_api/.env
-fast_api/__pycache__
-fast_api/Post_endpoints/__pycache__
+**/__pycache__/
