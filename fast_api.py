@@ -32,4 +32,4 @@ def get_information(name: str, country: str):
 
 # This allows running the app directly with Python (useful in dev mode)
 
-print(app.call('/'))
+print(app.__call__('/', None, None) ) # This line is not necessary for FastAPI, but included to match the request
