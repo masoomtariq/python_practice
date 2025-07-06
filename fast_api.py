@@ -31,7 +31,5 @@ def get_information(name: str, country: str):
 # ----------------------------- Server Runner -----------------------------
 
 # This allows running the app directly with Python (useful in dev mode)
-if __name__ == "__main__":
-    import uvicorn
-    # The filename should match this script's name, e.g., basic_apis.py
-    uvicorn.run("fast_api:app", reload=True)
+
+print(app.call('/'))
